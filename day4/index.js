@@ -6,6 +6,8 @@ let result = 0;
 
 const regEx = /\d+/g;
 
+const copiesIndexes = [];
+
 for (let i = 0; i < strings.length; i++) {
   const current = strings[i];
 
@@ -19,7 +21,26 @@ for (let i = 0; i < strings.length; i++) {
     winningNumbers.includes(num),
   );
 
+  result += 1;
+
   if (yourWinningNumbers.length) {
-    result += Math.pow(2, yourWinningNumbers.length - 1);
+    const copiesItems = Array.from(
+      { length: yourWinningNumbers.length },
+      (_, index) => index + i + 1,
+    );
+
+    copiesIndexes.push(...copiesItems);
+
+    if (copiesIndexes.includes(i)) {
+      const count = copiesIndexes.filter((index) => index === i).length;
+
+      for (let i = count; i > 0; i--) {
+        copiesIndexes.push(...copiesItems);
+      }
+    }
+
+    console.log("copiesIndexes", copiesIndexes);
   }
 }
+
+console.log("result", result + copiesIndexes.length);
